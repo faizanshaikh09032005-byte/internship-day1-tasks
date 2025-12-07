@@ -1,0 +1,116 @@
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+
+CREATE TABLE faculty (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(50)
+);
+
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100),
+    dept_id INT
+);
+
+CREATE TABLE courses (
+    id SERIAL PRIMARY KEY,
+    course_name VARCHAR(50),
+    faculty_id INT
+);
+
+CREATE TABLE attendance (
+    id SERIAL PRIMARY KEY,
+    student_id INT,
+    date DATE,
+    status VARCHAR(10)
+);
+
+INSERT INTO departments (dept_name) VALUES
+('Computer Science'),
+('IT'),
+('Electronics'),
+('Mechanical'),
+('Civil'),
+('AI & ML'),
+('Data Science'),
+('Finance'),
+('Marketing'),
+('HR');
+
+INSERT INTO faculty (name, department) VALUES
+('Rahul Sharma', 'Computer Science'),
+('Aditi Singh', 'IT'),
+('Vijay Patil', 'Electronics'),
+('Neha Khan', 'Mechanical'),
+('Suresh Nair', 'Civil'),
+('Manish Roy', 'AI & ML'),
+('Priya Deshmukh', 'Data Science'),
+('Rohan Chavan', 'Finance'),
+('Arjun Mehta', 'Marketing'),
+('Fatima Shaikh', 'HR');
+
+INSERT INTO students (name, email, dept_id) VALUES
+('Faizan', 'faizan@gmail.com', 1),
+('Aisha', 'aisha@gmail.com', 2),
+('Rohan', 'rohan@gmail.com', 3),
+('Simran', 'simran@gmail.com', 4),
+('Kunal', 'kunal@gmail.com', 5),
+('Zoya', 'zoya@gmail.com', 6),
+('Yash', 'yash@gmail.com', 7),
+('Nina', 'nina@gmail.com', 8),
+('Imran', 'imran@gmail.com', 9),
+('Meera', 'meera@gmail.com', 10);
+
+INSERT INTO courses (course_name, faculty_id) VALUES
+('Java', 1),
+('Python', 2),
+('Electronics Basics', 3),
+('Thermodynamics', 4),
+('AutoCAD', 5),
+('Machine Learning', 6),
+('Data Analytics', 7),
+('Finance 101', 8),
+('Marketing Basics', 9),
+('HR Policies', 10);
+
+INSERT INTO attendance (student_id, date, status) VALUES
+(1, '2025-01-01', 'Present'),
+(2, '2025-01-01', 'Absent'),
+(3, '2025-01-02', 'Present'),
+(4, '2025-01-02', 'Present'),
+(5, '2025-01-03', 'Absent'),
+(6, '2025-01-03', 'Present'),
+(7, '2025-01-04', 'Present'),
+(8, '2025-01-04', 'Absent'),
+(9, '2025-01-05', 'Present'),
+(10, '2025-01-05', 'Present');
+
+SELECT * FROM students;
+SELECT name, email FROM students;
+SELECT * FROM students WHERE dept_id = 1;
+SELECT * FROM students WHERE name LIKE 'A%';
+SELECT * FROM attendance WHERE id BETWEEN 2 AND 7;
+SELECT * FROM students ORDER BY name ASC;
+
+SELECT faculty_id, COUNT(*) 
+FROM courses
+GROUP BY faculty_id;
+
+SELECT s.id, s.name, d.dept_name
+FROM students s
+INNER JOIN departments d
+ON s.dept_id = d.id;
+
+SELECT c.id, c.course_name, f.name AS faculty_name
+FROM courses c
+LEFT JOIN faculty f
+ON c.faculty_id = f.id;
+
+SELECT a.id, a.date, a.status, s.name
+FROM attendance a
+RIGHT JOIN students s
+ON a.student_id = s.id;
